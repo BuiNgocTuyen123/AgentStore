@@ -184,3 +184,9 @@
 }
 .link:hover::after { width: 100%; }
 .link:hover { color: var(--accent2); }
+
+@keyframes logoBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
