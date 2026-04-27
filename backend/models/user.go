@@ -8,4 +8,6 @@ type User struct {
 	Email    string             `json:"email" bson:"email"`
 	Password string             `json:"-" bson:"password"`
 	Role     string             `json:"role" bson:"role"` // "admin" hoặc "user"
+	GoogleID string             `json:"google_id,omitempty" bson:"google_id,omitempty"`
+	Avatar   string             `json:"avatar,omitempty" bson:"avatar,omitempty"`
 }

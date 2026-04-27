@@ -16,6 +16,8 @@ func SetupRoutes(r *gin.Engine) {
 		{
 			auth.POST("/register", handlers.Register)
 			auth.POST("/login", handlers.Login)
+			auth.GET("/google/login", handlers.GoogleLogin)
+			auth.GET("/google/callback", handlers.GoogleCallback)
 		}
 
 		// Products (public - ai cũng xem được)
