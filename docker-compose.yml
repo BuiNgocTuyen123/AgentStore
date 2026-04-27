@@ -16,8 +16,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: ecommerce-backend
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     environment:
       # Thay vì dùng localhost, trong Docker nó sẽ gọi tên service 'mongodb'
       - MONGO_URI=mongodb://mongodb:27017
