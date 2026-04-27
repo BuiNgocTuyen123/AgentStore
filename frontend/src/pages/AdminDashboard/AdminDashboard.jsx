@@ -8,7 +8,7 @@ import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import s from './AdminDashboard.module.css';
 
-const API = 'http://localhost:8080/api';
+const API = 'http://tuyenxinhtrai.site:8080/api';
 
 const EMPTY_FORM = { username: '', email: '', password: '', role: 'user' };
 
