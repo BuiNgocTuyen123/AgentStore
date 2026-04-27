@@ -1,0 +1,51 @@
+services:
+  # 1. MongoDB Database
+  mongodb:
+    image: mongo:latest
+    container_name: ecommerce-db
+    ports:
+      - "27018:27017" # Đổi thành 27018 trên máy thật để tránh đụng độ
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - ecommerce-net
+
+  # 2. Golang Backend
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ecommerce-backend
+    ports:
+      - "8080:8080"
+    environment:
+      # Thay vì dùng localhost, trong Docker nó sẽ gọi tên service 'mongodb'
+      - MONGO_URI=mongodb://mongodb:27017
+      - PORT=8080
+      - JWT_SECRET=super_secret_docker_key
+    depends_on:
+      - mongodb
+    networks:
+      - ecommerce-net
+
+  # 3. React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ecommerce-frontend
+    ports:
+      - "5173:80" # Nginx chạy cổng 80, ta map ra cổng 5173 trên máy bạn
+    depends_on:
+      - backend
+    networks:
+      - ecommerce-net
+
+# Cấu hình network nội bộ cho các container nói chuyện với nhau
+networks:
+  ecommerce-net:
+    driver: bridge
+
+# Mount volume để dữ liệu database không bị mất khi tắt Docker
+volumes:
+  mongodb_data:

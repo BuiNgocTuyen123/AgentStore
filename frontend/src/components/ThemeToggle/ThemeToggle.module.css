@@ -1,0 +1,51 @@
+/* Theme Toggle Button */
+.btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--toggle-bg);
+  color: var(--toggle-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--toggle-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn:hover { transform: scale(1.12) rotate(15deg); box-shadow: var(--glow); }
+.btnSpin { animation: btnPulse 0.9s ease; }
+
+.iconShow { display: flex; transition: opacity 0.2s; }
+.iconHide { display: flex; opacity: 0; }
+
+/* Flying icon */
+.flyIcon {
+  position: fixed;
+  width: 36px; height: 36px;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flySet  { color: #F59E0B; animation: iconFlySet  0.9s cubic-bezier(0.4, 0, 0.6, 1) forwards; }
+.flyRise { color: #A78BFA; animation: iconFlyRise 0.9s cubic-bezier(0.4, 0, 0.6, 1) forwards; }
+
+/* Ripple */
+.ripple {
+  position: fixed;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  z-index: 2;
+  pointer-events: none;
+}
+.rippleDark  { background: #0D0D1A; animation: rippleExpand 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.rippleLight { background: #FAF7FF; animation: rippleExpand 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards; }

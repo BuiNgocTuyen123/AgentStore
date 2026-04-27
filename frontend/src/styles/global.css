@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale;
+}
+
+.light,
+.dark {
+  min-height: 100vh;
+  color: var(--text);
+  transition: background 0.6s ease, color 0.4s ease;
+}
+
+.light {
+  background: radial-gradient(ellipse at top left, #E9D5FF 0%, #FAF7FF 40%, #FCE7F3 100%);
+}
+
+.dark {
+  background: radial-gradient(ellipse at top left, #1E0A3C 0%, #0D0D1A 40%, #0A0A1E 100%);
+}

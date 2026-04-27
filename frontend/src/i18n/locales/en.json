@@ -1,0 +1,61 @@
+{
+  "auth": {
+    "loginTitle": "Welcome Back",
+    "loginSubtitle": "Sign in to continue shopping",
+    "registerTitle": "Create Account",
+    "registerSubtitle": "Join thousands of happy customers",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "loginBtn": "Sign In",
+    "registerBtn": "Sign Up",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "registerLink": "Sign up now",
+    "loginLink": "Sign in",
+    "passwordMismatch": "Passwords do not match!",
+    "registerSuccess": "Registration successful! Redirecting...",
+    "usernamePlaceholder": "your_username",
+    "emailPlaceholder": "you@example.com",
+    "passwordPlaceholder": "••••••••"
+  },
+  "home": {
+    "welcome": "Welcome,",
+    "subtitle": "Discover thousands of amazing products",
+    "logout": "Sign Out",
+    "browseProducts": "Browse Products",
+    "yourAccount": "Your Account",
+    "role": "Role",
+    "adminPanel": "Admin Panel"
+  },
+  "admin": {
+    "subtitle": "Manage all users and system settings",
+    "back": "Back",
+    "totalUsers": "Total Users",
+    "totalAdmins": "Administrators",
+    "totalRegular": "Regular Users",
+    "userList": "User List",
+    "records": "records",
+    "colUsername": "Username",
+    "colEmail": "Email",
+    "colRole": "Role",
+    "colActions": "Actions",
+    "promote": "Grant Admin",
+    "demote": "Revoke Admin",
+    "delete": "Delete",
+    "confirmDelete": "Are you sure you want to delete this user?",
+    "noUsers": "No users found",
+    "fetchError": "Failed to load user data",
+    "addUser": "Add User",
+    "createBtn": "Create Account",
+    "createSuccess": "User created successfully!",
+    "cancel": "Cancel"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "lightMode": "Switch to light",
+    "darkMode": "Switch to dark"
+  }
+}

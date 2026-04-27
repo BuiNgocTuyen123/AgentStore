@@ -1,0 +1,4 @@
+/* Chỉ import — không viết style ở đây */
+@import './styles/variables.css';
+@import './styles/global.css';
+@import './styles/animations.css';

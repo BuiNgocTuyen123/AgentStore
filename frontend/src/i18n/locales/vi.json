@@ -1,0 +1,61 @@
+{
+  "auth": {
+    "loginTitle": "Chào mừng trở lại",
+    "loginSubtitle": "Đăng nhập để tiếp tục mua sắm",
+    "registerTitle": "Tạo tài khoản",
+    "registerSubtitle": "Tham gia cùng hàng nghìn khách hàng",
+    "username": "Tên đăng nhập",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "loginBtn": "Đăng nhập",
+    "registerBtn": "Đăng ký",
+    "noAccount": "Chưa có tài khoản?",
+    "hasAccount": "Đã có tài khoản?",
+    "registerLink": "Đăng ký ngay",
+    "loginLink": "Đăng nhập",
+    "passwordMismatch": "Mật khẩu xác nhận không khớp!",
+    "registerSuccess": "Đăng ký thành công! Đang chuyển hướng...",
+    "usernamePlaceholder": "ten_dang_nhap",
+    "emailPlaceholder": "ban@example.com",
+    "passwordPlaceholder": "••••••••"
+  },
+  "home": {
+    "welcome": "Chào mừng,",
+    "subtitle": "Khám phá hàng nghìn sản phẩm tuyệt vời",
+    "logout": "Đăng xuất",
+    "browseProducts": "Xem sản phẩm",
+    "yourAccount": "Tài khoản của bạn",
+    "role": "Vai trò",
+    "adminPanel": "Quản trị hệ thống"
+  },
+  "admin": {
+    "subtitle": "Quản lý toàn bộ người dùng và hệ thống",
+    "back": "Quay lại",
+    "totalUsers": "Tổng người dùng",
+    "totalAdmins": "Quản trị viên",
+    "totalRegular": "Người dùng thường",
+    "userList": "Danh sách người dùng",
+    "records": "bản ghi",
+    "colUsername": "Tên đăng nhập",
+    "colEmail": "Email",
+    "colRole": "Vai trò",
+    "colActions": "Thao tác",
+    "promote": "Cấp Admin",
+    "demote": "Hạ cấp",
+    "delete": "Xóa",
+    "confirmDelete": "Bạn chắc chắn muốn xóa người dùng này?",
+    "noUsers": "Không có người dùng nào",
+    "fetchError": "Không thể tải dữ liệu người dùng",
+    "addUser": "Thêm người dùng",
+    "createBtn": "Tạo tài khoản",
+    "createSuccess": "Tạo người dùng thành công!",
+    "cancel": "Hủy"
+  },
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi",
+    "lightMode": "Chuyển sang sáng",
+    "darkMode": "Chuyển sang tối"
+  }
+}

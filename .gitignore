@@ -1,0 +1,18 @@
+# Bỏ qua các file môi trường (cực kỳ quan trọng)
+.env
+.env.*
+
+# Thư mục chứa thư viện của Frontend
+node_modules/
+dist/
+build/
+
+# File thực thi của Backend (sinh ra sau khi build)
+backend/main
+backend/*.exe
+
+# Các file rác của hệ điều hành và IDE
+.DS_Store
+.vscode/
+.idea/
+*.log
