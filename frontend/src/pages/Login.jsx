@@ -24,7 +24,14 @@ export default function Login() {
 
     if (token) {
       try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
+        // Fix lỗi font tiếng Việt khi decode JWT
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        
+        const payload = JSON.parse(jsonPayload);
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify({
           id: payload.user_id,
