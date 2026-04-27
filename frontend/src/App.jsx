@@ -4,6 +4,7 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Home from './pages/Home/Home';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import TopNav from './components/TopNav/TopNav';
 
 // Route yêu cầu đăng nhập
 const PrivateRoute = ({ children }) => {
@@ -24,6 +25,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <TopNav />
         <Routes>
           <Route path="/login"    element={<Login />} />
           <Route path="/register" element={<Register />} />

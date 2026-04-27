@@ -1,12 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ThemeToggle from '../components/ThemeToggle';
+import { useTranslation } from 'react-i18next';
+import ThemeToggle from '../components/ThemeToggle/ThemeToggle';
+import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
+import PasswordInput from '../components/PasswordInput/PasswordInput';
+import s from '../styles/Auth.module.css';
 
 export default function Login() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: '', password: '' });
+  const { t } = useTranslation();
+  const [form, setForm] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const urlError = params.get('error');
+
+    if (urlError) {
+      setError('Đăng nhập Google thất bại. Vui lòng thử lại.');
+    }
+
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify({
+          id: payload.user_id,
+          username: payload.username,
+          email: payload.email,
+          role: payload.role,
+          avatar: payload.avatar
+        }));
+        navigate('/');
+      } catch (e) {
+        setError('Lỗi xác thực Token Google');
+      }
+    }
+  }, [navigate]);
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -85,6 +117,18 @@ export default function Login() {
             {loading ? <span className="btn-spinner" /> : 'Đăng nhập'}
           </button>
         </form>
+
+        <div className="auth-divider">
+          <span>HOẶC</span>
+        </div>
+
+        <button 
+          className="auth-btn auth-btn-google" 
+          onClick={() => window.location.href = '/api/auth/google/login'}
+        >
+          <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google" width="20" />
+          Tiếp tục với Google
+        </button>
 
         <p className="auth-switch">
           Chưa có tài khoản?{' '}

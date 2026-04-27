@@ -104,10 +104,6 @@ export default function AdminDashboard() {
           <button className={s.backBtn} onClick={() => navigate('/')}>← {t('admin.back')}</button>
         </div>
         <div className={s.headerCenter}><Clock /></div>
-        <div className={s.headerRight}>
-          <LanguageSwitcher />
-          <ThemeToggle />
-        </div>
       </header>
 
       {/* ── MAIN ── */}

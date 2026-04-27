@@ -17,9 +17,6 @@ export default function Home() {
 
   return (
     <div className={s.page}>
-      <ThemeToggle />
-      <LanguageSwitcher />
-
       <div className={s.bg}>
         <div className={`${s.blob} ${s.blob1}`} />
         <div className={`${s.blob} ${s.blob2}`} />

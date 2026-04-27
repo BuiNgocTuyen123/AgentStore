@@ -22,7 +22,8 @@ services:
       # Thay vì dùng localhost, trong Docker nó sẽ gọi tên service 'mongodb'
       - MONGO_URI=mongodb://mongodb:27017
       - PORT=8080
-      - JWT_SECRET=super_secret_docker_key
+    env_file:
+      - ./backend/.env
     depends_on:
       - mongodb
     networks:

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ThemeToggle from '../../components/ThemeToggle/ThemeToggle';
@@ -12,6 +12,33 @@ export default function Login() {
   const [form, setForm] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const urlError = params.get('error');
+
+    if (urlError) {
+      setError('Đăng nhập Google thất bại. Vui lòng thử lại.');
+    }
+
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify({
+          id: payload.user_id,
+          username: payload.username,
+          email: payload.email,
+          role: payload.role,
+          avatar: payload.avatar
+        }));
+        navigate('/');
+      } catch (e) {
+        setError('Lỗi xác thực Token Google');
+      }
+    }
+  }, [navigate]);
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -39,8 +66,6 @@ export default function Login() {
 
   return (
     <div className={s.page}>
-      <ThemeToggle />
-      <LanguageSwitcher />
       <div className={s.bg}>
         <div className={`${s.blob} ${s.blob1}`} />
         <div className={`${s.blob} ${s.blob2}`} />
@@ -77,6 +102,18 @@ export default function Login() {
             {loading ? <span className={s.spinner} /> : t('auth.loginBtn')}
           </button>
         </form>
+
+        <div className={s.divider}>
+          <span>HOẶC</span>
+        </div>
+
+        <button 
+          className={`${s.btn} ${s.btnGoogle}`} 
+          onClick={() => window.location.href = '/api/auth/google/login'}
+        >
+          <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google" width="20" />
+          Tiếp tục với Google
+        </button>
 
         <p className={s.switchText}>
           {t('auth.noAccount')}{' '}

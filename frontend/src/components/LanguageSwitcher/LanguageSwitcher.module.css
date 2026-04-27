@@ -1,9 +1,7 @@
 /* Language Switcher */
 .wrapper {
-  position: fixed;
-  top: 20px;
-  right: 80px;
-  z-index: 1000;
+  position: relative;
+  z-index: 11;
 }
 
 .btn {
