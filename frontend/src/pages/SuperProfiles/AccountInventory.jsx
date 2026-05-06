@@ -153,8 +153,20 @@ export default function AccountInventory() {
                 return (
                   <tr key={acc.id}>
                     <td style={{fontWeight: 600}}>{acc.username || '—'}</td>
-                    <td style={{maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
-                      {acc.url ? <a href={acc.url} target="_blank" rel="noreferrer" style={{color:'var(--accent)'}}>{acc.url}</a> : '—'}
+                    <td>
+                      {acc.url ? (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <a href={acc.url} target="_blank" rel="noreferrer" title={acc.url}
+                             style={{ color: 'var(--accent)', textDecoration: 'none', maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'middle' }}>
+                            {acc.url}
+                          </a>
+                          <button onClick={() => { navigator.clipboard.writeText(acc.url); alert('Đã copy URL!'); }}
+                                  style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '14px', opacity: 0.7 }}
+                                  title="Copy URL">
+                            📋
+                          </button>
+                        </div>
+                      ) : '—'}
                     </td>
                     <td>{acc.computer || '—'}</td>
                     <td>

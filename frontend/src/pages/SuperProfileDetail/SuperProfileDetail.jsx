@@ -274,8 +274,19 @@ export default function SuperProfileDetail() {
                         </div>
                         <div className={s.accInfoRow}>
                           <span className={s.accInfoLabel}>URL Profile</span>
-                          <span className={s.accInfoVal}>
-                            {acc.url ? <a href={acc.url} target="_blank" rel="noreferrer" style={{color:'var(--accent)'}}>Link</a> : '—'}
+                          <span className={s.accInfoVal} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            {acc.url ? (
+                              <>
+                                <a href={acc.url} target="_blank" rel="noreferrer" title={acc.url}
+                                  style={{ color: 'var(--accent)', textDecoration: 'none', maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block' }}>
+                                  {acc.url}
+                                </a>
+                                <button onClick={() => { navigator.clipboard.writeText(acc.url); alert('Đã copy!'); }}
+                                  style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '13px', opacity: 0.7 }} title="Copy URL">
+                                  📋
+                                </button>
+                              </>
+                            ) : '—'}
                           </span>
                         </div>
                       </div>
