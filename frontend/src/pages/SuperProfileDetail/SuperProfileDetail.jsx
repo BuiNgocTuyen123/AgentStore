@@ -95,9 +95,9 @@ export default function SuperProfileDetail() {
     fetchAccounts();
   };
 
-  const handleUpdateAccStatus = async (accId, status) => {
-    await fetch(`${API}/accounts/${accId}`, {
-      method: 'PUT', headers, body: JSON.stringify({ status }),
+  const handleUpdateAccStatus = async (acc, status) => {
+    await fetch(`${API}/accounts/${acc.id}`, {
+      method: 'PUT', headers, body: JSON.stringify({ ...acc, status }),
     });
     fetchAccounts();
   };
@@ -296,7 +296,7 @@ export default function SuperProfileDetail() {
                           <div className={s.statusIndicator} style={{ background: accSt.color, boxShadow: `0 0 8px ${accSt.color}` }}></div>
                           <select className={s.accStatusSelect}
                             value={acc.status}
-                            onChange={e => handleUpdateAccStatus(acc.id, e.target.value)}>
+                            onChange={e => handleUpdateAccStatus(acc, e.target.value)}>
                             <option value="raw">⚪ Thô</option>
                             <option value="setup">🔵 Running Setup</option>
                             <option value="farming">🟢 Đang nuôi</option>

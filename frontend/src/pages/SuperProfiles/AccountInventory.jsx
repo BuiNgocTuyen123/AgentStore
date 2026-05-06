@@ -83,9 +83,9 @@ export default function AccountInventory() {
     }
   };
 
-  const handleUpdateStatus = async (id, status) => {
-    await fetch(`${API}/accounts/${id}`, {
-      method: 'PUT', headers, body: JSON.stringify({ status }),
+  const handleUpdateStatus = async (acc, status) => {
+    await fetch(`${API}/accounts/${acc.id}`, {
+      method: 'PUT', headers, body: JSON.stringify({ ...acc, status }),
     });
     fetchData();
   };
@@ -181,7 +181,7 @@ export default function AccountInventory() {
                       <div className={s.statusSelectWrapper}>
                         <div className={s.statusIndicator} style={{ background: st.color, boxShadow: `0 0 8px ${st.color}` }}></div>
                         <select className={s.statusSelect} style={{ color: st.color, background: st.bg }}
-                          value={acc.status} onChange={e => handleUpdateStatus(acc.id, e.target.value)}>
+                          value={acc.status} onChange={e => handleUpdateStatus(acc, e.target.value)}>
                           <option value="raw">⚪ Thô</option>
                           <option value="setup">🔵 Running Setup</option>
                           <option value="farming">🟢 Đang nuôi</option>
