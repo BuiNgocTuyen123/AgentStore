@@ -61,6 +61,9 @@ export default function UserMenu() {
               ⚡ Bảng điều khiển (Admin)
             </button>
           )}
+          <button className={s.option} onClick={() => navigateTo('/super-profiles')}>
+            🎭 KOL Manager
+          </button>
           <div className={s.divider}></div>
           <button className={`${s.option} ${s.logout}`} onClick={handleLogout}>
             🚪 Đăng xuất

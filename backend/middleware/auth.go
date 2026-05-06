@@ -19,7 +19,6 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Header phải có dạng: "Bearer <token>"
 		parts := strings.SplitN(authHeader, " ", 2)
 		if len(parts) != 2 || parts[0] != "Bearer" {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Định dạng token không hợp lệ"})
@@ -53,7 +52,6 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Lưu thông tin user vào context để dùng trong handlers
 		c.Set("user_id", claims["user_id"])
 		c.Set("email", claims["email"])
 		c.Set("role", claims["role"])
@@ -61,12 +59,50 @@ func AuthMiddleware() gin.HandlerFunc {
 	}
 }
 
-// AdminMiddleware — Chỉ cho phép admin
+// AdminMiddleware — Cho phép admin (backward compatible) và manager, super_admin
 func AdminMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		role, exists := c.Get("role")
-		if !exists || role != "admin" {
-			c.JSON(http.StatusForbidden, gin.H{"error": "Chỉ admin mới có quyền thực hiện hành động này"})
+		if !exists {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Không có quyền truy cập"})
+			c.Abort()
+			return
+		}
+		r := role.(string)
+		if r != "admin" && r != "manager" && r != "super_admin" {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Không có quyền truy cập"})
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
+}
+
+// ManagerMiddleware — Chỉ cho phép manager và super_admin
+func ManagerMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		role, exists := c.Get("role")
+		if !exists {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Không có quyền truy cập"})
+			c.Abort()
+			return
+		}
+		r := role.(string)
+		if r != "manager" && r != "super_admin" {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Chỉ Manager hoặc Super Admin mới có quyền này"})
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
+}
+
+// SuperAdminMiddleware — Chỉ cho phép super_admin duy nhất
+func SuperAdminMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		role, exists := c.Get("role")
+		if !exists || role.(string) != "super_admin" {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Chỉ Super Admin mới có quyền này"})
 			c.Abort()
 			return
 		}

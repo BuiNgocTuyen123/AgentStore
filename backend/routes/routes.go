@@ -8,10 +8,9 @@ import (
 )
 
 func SetupRoutes(r *gin.Engine) {
-	// ── Public routes ──────────────────────────────────────
 	api := r.Group("/api")
 	{
-		// Auth
+		// ── Auth (Public) ──────────────────────────────────
 		auth := api.Group("/auth")
 		{
 			auth.POST("/register", handlers.Register)
@@ -20,18 +19,18 @@ func SetupRoutes(r *gin.Engine) {
 			auth.GET("/google/callback", handlers.GoogleCallback)
 		}
 
-		// Products (public - ai cũng xem được)
+		// ── Products (Public) ──────────────────────────────
 		products := api.Group("/products")
 		{
 			products.GET("", handlers.GetProducts)
 			products.GET("/:id", handlers.GetProductByID)
 		}
 
-		// ── Protected routes (phải đăng nhập) ──────────────
+		// ── Protected Routes (phải đăng nhập) ─────────────
 		protected := api.Group("")
 		protected.Use(middleware.AuthMiddleware())
 		{
-			// Products (chỉ admin mới được tạo/sửa/xóa)
+			// Products CRUD — Admin/Manager/SuperAdmin
 			adminProducts := protected.Group("/products")
 			adminProducts.Use(middleware.AdminMiddleware())
 			{
@@ -40,7 +39,28 @@ func SetupRoutes(r *gin.Engine) {
 				adminProducts.DELETE("/:id", handlers.DeleteProduct)
 			}
 
-			// Admin — Quản lý users
+			// ── Super Profiles (KOL Management) ───────────
+			sp := protected.Group("/super-profiles")
+			{
+				sp.GET("", handlers.GetSuperProfiles)           // Xem danh sách (theo role)
+				sp.POST("", handlers.CreateSuperProfile)        // Tạo mới (có quota check)
+				sp.GET("/:id", handlers.GetSuperProfileByID)    // Xem chi tiết
+				sp.PUT("/:id", handlers.UpdateSuperProfile)     // Cập nhật
+				sp.DELETE("/:id", handlers.DeleteSuperProfile)  // Xóa
+
+				sp.GET("/:id/accounts", handlers.GetSocialAccounts)
+			}
+
+			// ── Social Accounts (Kho Tài Khoản) ──────────
+			accounts := protected.Group("/accounts")
+			{
+				accounts.GET("", handlers.GetAllSocialAccounts)  // Xem kho
+				accounts.POST("", handlers.CreateSocialAccount)  // Thêm vào kho
+				accounts.PUT("/:id", handlers.UpdateSocialAccount)
+				accounts.DELETE("/:id", handlers.DeleteSocialAccount)
+			}
+
+			// ── Admin Panel ────────────────────────────────
 			adminGroup := protected.Group("/admin")
 			adminGroup.Use(middleware.AdminMiddleware())
 			{
@@ -48,6 +68,13 @@ func SetupRoutes(r *gin.Engine) {
 				adminGroup.POST("/users", handlers.CreateUserByAdmin)
 				adminGroup.PUT("/users/:id/role", handlers.UpdateUserRole)
 				adminGroup.DELETE("/users/:id", handlers.DeleteUser)
+			}
+
+			// ── Super Admin: Cập nhật quota cho user ──────
+			superAdmin := protected.Group("/super-admin")
+			superAdmin.Use(middleware.SuperAdminMiddleware())
+			{
+				superAdmin.PUT("/users/:id/quota", handlers.UpdateUserQuota)
 			}
 		}
 	}

@@ -206,14 +206,18 @@ func GoogleCallback(c *gin.Context) {
 		}
 		collection.InsertOne(ctx, user)
 	} else {
-		// Update GoogleID và Avatar nếu user đã tồn tại
+		// Update GoogleID, Avatar và Tên nếu user đã tồn tại (để fix nếu tên cũ bị lỗi)
 		updateData := bson.M{}
 		if user.GoogleID == "" {
 			updateData["google_id"] = userInfo.ID
 		}
-		if user.Avatar == "" && userInfo.Picture != "" {
+		if userInfo.Picture != "" {
 			updateData["avatar"] = userInfo.Picture
 			user.Avatar = userInfo.Picture
+		}
+		if userInfo.Name != "" && user.Username != userInfo.Name {
+			updateData["username"] = userInfo.Name
+			user.Username = userInfo.Name
 		}
 		if len(updateData) > 0 {
 			collection.UpdateOne(ctx, bson.M{"_id": user.ID}, bson.M{"$set": updateData})

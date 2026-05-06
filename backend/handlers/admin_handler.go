@@ -51,16 +51,25 @@ func CreateUserByAdmin(c *gin.Context) {
 	}
 
 	role := input.Role
-	if role != "admin" && role != "user" {
+	validRoles := map[string]bool{"user": true, "admin": true, "manager": true}
+	if !validRoles[role] {
 		role = "user"
 	}
 
+	// Manager mặc định được 10 super profiles
+	maxProfiles := 1
+	if role == "manager" {
+		maxProfiles = 10
+	}
+
 	user := models.User{
-		ID:       primitive.NewObjectID(),
-		Username: input.Username,
-		Email:    input.Email,
-		Password: string(hashed),
-		Role:     role,
+		ID:               primitive.NewObjectID(),
+		Username:         input.Username,
+		Email:            input.Email,
+		Password:         string(hashed),
+		Role:             role,
+		MaxSuperProfiles: maxProfiles,
+		CreatedAt:        time.Now(),
 	}
 
 	if _, err := collection.InsertOne(ctx, user); err != nil {
@@ -108,8 +117,9 @@ func UpdateUserRole(c *gin.Context) {
 	var body struct {
 		Role string `json:"role" binding:"required"`
 	}
-	if err := c.ShouldBindJSON(&body); err != nil || (body.Role != "admin" && body.Role != "user") {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Role phải là 'admin' hoặc 'user'"})
+	validRoles := map[string]bool{"user": true, "admin": true, "manager": true}
+	if err := c.ShouldBindJSON(&body); err != nil || !validRoles[body.Role] {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Role phải là 'user', 'admin' hoặc 'manager'"})
 		return
 	}
 
@@ -153,4 +163,40 @@ func DeleteUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Xóa user thành công"})
+}
+
+// PUT /super-admin/users/:id/quota — Super Admin cập nhật quota Super Profile cho user
+func UpdateUserQuota(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	id := c.Param("id")
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID không hợp lệ"})
+		return
+	}
+
+	var body struct {
+		MaxSuperProfiles int `json:"max_super_profiles" binding:"required,min=1"`
+	}
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Vui lòng nhập max_super_profiles hợp lệ (>= 1)"})
+		return
+	}
+
+	collection := config.DB.Collection("users")
+	_, err = collection.UpdateOne(ctx,
+		bson.M{"_id": objID},
+		bson.M{"$set": bson.M{"max_super_profiles": body.MaxSuperProfiles}},
+	)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Không thể cập nhật quota"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":           "Cập nhật quota thành công",
+		"max_super_profiles": body.MaxSuperProfiles,
+	})
 }
